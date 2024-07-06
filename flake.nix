@@ -12,9 +12,9 @@
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ rust-overlay.overlay ];
+          overlays = [ (import rust-overlay) ];
         };
-        rust = pkgs.latest.rustChannels.stable.rust;
+        rust = pkgs.rust-bin.stable.latest.default;
       in
       {
         packages.default = pkgs.stdenv.mkDerivation {
@@ -23,7 +23,7 @@
 
           src = ./.;
 
-          buildInputs = [ rust.cargo ];
+          buildInputs = [ rust ];
 
           cargoSha256 = pkgs.lib.fakeSha256;
 
